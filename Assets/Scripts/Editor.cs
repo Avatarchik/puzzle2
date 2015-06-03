@@ -15,11 +15,7 @@ public class Editor : MonoBehaviour {
 		foreach(Transform tr in wrapper)
 		{
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
-			RectTransform reTrans = tr.GetComponent<RectTransform>();
-			obj.AddField("x", reTrans.anchoredPosition.x);
-			obj.AddField("y", reTrans.anchoredPosition.y);
-			obj.AddField("rot", reTrans.localEulerAngles.z);
-			obj.AddField("type", tr.GetComponent<PuzzleCell>().typeCell.ToString());
+			createObject(ref obj, tr);
 			arr.Add(obj);
 		}
 		
@@ -33,16 +29,21 @@ public class Editor : MonoBehaviour {
 			foreach(Transform trInside in tr)
 			{
 				JSONObject obj2 = new JSONObject(JSONObject.Type.OBJECT);
-				RectTransform reTrans = trInside.GetComponent<RectTransform>();
-				obj2.AddField("x", reTrans.anchoredPosition.x);
-				obj2.AddField("y", reTrans.anchoredPosition.y);
-				obj2.AddField("rot", reTrans.localEulerAngles.z);
-				obj2.AddField("type", trInside.GetComponent<PuzzleCell>().typeCell.ToString());
+				createObject(ref obj2, trInside);
 				arr3.Add(obj2);
 			}
 			arr2.Add(obj);
 		}
 		System.IO.File.WriteAllText (Application.dataPath + "/Data/1.txt", j.ToString ());
 		Debug.Log (j.ToString ());
+	}
+
+	void  createObject(ref JSONObject obj,Transform tr )
+	{
+		RectTransform reTrans = tr.GetComponent<RectTransform>();
+		obj.AddField("x", reTrans.anchoredPosition.x);
+		obj.AddField("y", reTrans.anchoredPosition.y);
+		obj.AddField("rot", reTrans.localEulerAngles.z);
+		obj.AddField("type", tr.GetComponent<PuzzleCell>().typeCell.ToString());
 	}
 }
