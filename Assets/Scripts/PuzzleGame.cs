@@ -43,9 +43,10 @@ public class PuzzleGame : MonoBehaviour
 			p.x *= canvas.rect.width;
 			p.y *= canvas.rect.height;
 			currentBlock.anchoredPosition = p;
-		}
-		if (currentBlock != null && Input.GetMouseButtonDown (1)) {
-			currentBlock.GetComponent<PuzzleCellBlock> ().RotateBlock ();
+
+			if (Input.GetMouseButtonDown (1)) {
+				currentBlock.GetComponent<PuzzleCellBlock> ().RotateBlock ();
+			}
 		}
 	}
 
