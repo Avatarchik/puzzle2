@@ -155,18 +155,12 @@ public class PuzzleGame : MonoBehaviour
 	{
 		if (reverseType == PuzzleCell.ReverseType.allDirection)
 			return true;
-		else if (reverseType == PuzzleCell.ReverseType.notReverse) {
-			if (Mathf.Abs (angle1 - angle2) < 1f) 
-				return true;
-			else
-				return false;
-		} else if (reverseType == PuzzleCell.ReverseType.reverse) {
+		if (reverseType == PuzzleCell.ReverseType.notReverse)
+			return Mathf.Abs (angle1 - angle2) < 1f;
+		if (reverseType == PuzzleCell.ReverseType.reverse) {
 			angle1 = angle1 % 360f;
 			angle2 = angle2 % 360f;
-			if (Mathf.Abs ((angle1 % 180f) - (angle2 % 180f)) < 1f)
-				return true;
-			else
-				return false;
+			return Mathf.Abs ((angle1 % 180f) - (angle2 % 180f)) < 1f;
 		}
 		return false;
 	}
