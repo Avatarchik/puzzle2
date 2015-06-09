@@ -27,7 +27,7 @@ public class PuzzleGame : MonoBehaviour
 		{PuzzleCell.CellType.part2, PuzzleCell.ReverseType.allDirection},
 		{PuzzleCell.CellType.part3, PuzzleCell.ReverseType.reverse}
 	};
-	//Подобный масив можно создать после парсинга файла, где елементом масива будет число, например 4180, где 4 ето тип, а 180 поворот
+	//Подобный маcсив можно создать после парсинга файла, где елементом масcива будет число, например 4180, где 4 ето тип, а 180 поворот
 	LevelPart[,] levelMass = new LevelPart[ySize,xSize]
 	{
 		{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f),new LevelPart(PuzzleCell.CellType.part1,0f), 
@@ -58,7 +58,7 @@ public class PuzzleGame : MonoBehaviour
 			new LevelPart(PuzzleCell.CellType.none,0f)}
 	};
 
-	//Подобный масив можно создать после парсинга файла, где елементом масива будет число, например 4180, где 4 ето тип, а 180 поворот
+	//Подобный масcив можно создать после парсинга файла, где елементом масcива будет число, например 4180, где 4 ето тип, а 180 поворот
 	List<LevelPart[,]> levelMassItems =  new List<LevelPart[,]>()
 	{
 		new LevelPart[3,3] {
