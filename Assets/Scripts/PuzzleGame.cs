@@ -16,6 +16,8 @@ public class PuzzleGame : MonoBehaviour
 	public RectTransform cellBlockContainer;
 	public RectTransform targetContainer;
 	public float cellSize;
+	const int xSize = 7;
+	const int ySize = 7;
 	List<PuzzleCell> cells = new List<PuzzleCell> ();
 	Color32 cellColor = new Color32 (232, 102, 82, 255);
 	RectTransform currentBlock;
@@ -25,6 +27,82 @@ public class PuzzleGame : MonoBehaviour
 		{PuzzleCell.CellType.part2, PuzzleCell.ReverseType.allDirection},
 		{PuzzleCell.CellType.part3, PuzzleCell.ReverseType.reverse}
 	};
+	//Подобный масив можно создать после парсинга файла, где елементом масива будет число, например 4180, где 4 ето тип, а 180 поворот
+	LevelPart[,] levelMass = new LevelPart[ySize,xSize]
+	{
+		{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f),new LevelPart(PuzzleCell.CellType.part1,0f), 
+			new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1,90f), new LevelPart(PuzzleCell.CellType.none,0f),
+			new LevelPart(PuzzleCell.CellType.none,0f)},
+
+		{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part2,0f), new LevelPart(PuzzleCell.CellType.none,0f),
+			new LevelPart(PuzzleCell.CellType.part3,90f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part2,0f),
+			new LevelPart(PuzzleCell.CellType.none,0f)},
+
+		{new LevelPart(PuzzleCell.CellType.part1,180f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1, 270f), 
+			new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1,180f), new LevelPart(PuzzleCell.CellType.none,0f),
+			new LevelPart(PuzzleCell.CellType.part1,270f)},
+
+		{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part3,0f), new LevelPart(PuzzleCell.CellType.none,0f),
+			new LevelPart(PuzzleCell.CellType.none,0f),new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part3,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+
+		{new LevelPart(PuzzleCell.CellType.part1,90f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1,0f),
+			new LevelPart(PuzzleCell.CellType.none,0f),new LevelPart(PuzzleCell.CellType.part1,90f), new LevelPart(PuzzleCell.CellType.none,0f),
+			new LevelPart(PuzzleCell.CellType.part1,0f)},
+
+		{new LevelPart(PuzzleCell.CellType.none,0f),new LevelPart(PuzzleCell.CellType.part2,0f), new LevelPart(PuzzleCell.CellType.none,0f),
+			new LevelPart(PuzzleCell.CellType.part3,90f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part2,0f),
+			new LevelPart(PuzzleCell.CellType.none,0f)},
+
+		{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1, 270f), 
+			new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1, 180f), new LevelPart(PuzzleCell.CellType.none,0f), 
+			new LevelPart(PuzzleCell.CellType.none,0f)}
+	};
+
+	//Подобный масив можно создать после парсинга файла, где елементом масива будет число, например 4180, где 4 ето тип, а 180 поворот
+	List<LevelPart[,]> levelMassItems =  new List<LevelPart[,]>()
+	{
+		new LevelPart[3,3] {
+			{new LevelPart(PuzzleCell.CellType.part1,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1,90f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part3,90f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)}
+		},
+
+		new LevelPart[3,3] {
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part2,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)}
+		},
+
+		new LevelPart[3,3] {
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part3,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)}
+		},
+
+		new LevelPart[3,3] {
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part1,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)}
+		},
+
+		new LevelPart[3,3] {
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.part2,0f), new LevelPart(PuzzleCell.CellType.none,0f)},
+			{new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f), new LevelPart(PuzzleCell.CellType.none,0f)}
+		}
+	};
+
+	struct LevelPart
+	{
+		public PuzzleCell.CellType type;
+		public float angle;
+
+		public LevelPart(PuzzleCell.CellType t, float a)
+		{
+			type = t;
+			angle = a;
+		}
+	}
 
 	void Awake ()
 	{
@@ -33,9 +111,10 @@ public class PuzzleGame : MonoBehaviour
 
 	void Start ()
 	{
-		parseLevelFile ();
+		parseLevelMass ();
+		//parseLevelFile ();
 	}
-
+	
 	void Update ()
 	{
 		if (currentBlock != null) {
@@ -46,6 +125,71 @@ public class PuzzleGame : MonoBehaviour
 
 			if (Input.GetMouseButtonDown (1)) {
 				currentBlock.GetComponent<PuzzleCellBlock> ().RotateBlock ();
+			}
+		}
+	}
+
+	void parseLevelMass()
+	{
+		float xPos = 0f;
+		float yPos = 0f;
+		float offset = cellPrefab.GetComponent<RectTransform>().rect.width;
+
+		for(int i = 0; i < ySize;i++)
+		{
+			for(int j = 0; j < xSize; j++)
+			{
+				xPos += offset/4f;
+				PuzzleCell.CellType  cellType = levelMass[i,j].type;
+				if(cellType ==  PuzzleCell.CellType.none) 
+					continue;
+
+				float rot = levelMass[i,j].angle;
+				GameObject obj = Instantiate (cellPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+				obj.transform.SetParent (targetContainer);
+				obj.transform.localScale = Vector3.one;
+				RectTransform reTrans = obj.GetComponent<RectTransform> ();
+				reTrans.anchoredPosition = new Vector2 (xPos, yPos);
+				reTrans.eulerAngles = new Vector3 (0f, 0f, rot);
+				PuzzleCell pc = obj.GetComponent<PuzzleCell> ();
+				pc.SetType (cellType);
+				cells.Add (pc);
+			}
+			xPos = 0f;
+			yPos -= offset/4f;
+		}
+		targetContainer.anchoredPosition = new Vector2 (targetContainer.anchoredPosition.x - (xSize * offset / 8f), targetContainer.anchoredPosition.y + (ySize * offset / 8f));
+
+		for(int i =0; i < levelMassItems.Count; i++)
+		{
+			GameObject obj = Instantiate (cellBlockPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+			obj.transform.SetParent (cellBlockContainer);
+			obj.transform.localScale = Vector3.one;
+			obj.transform.localPosition = Vector3.zero;
+			xPos = -((offset/4f)*2f);
+			yPos = offset/4f;
+			for(int k =0; k < 3; k++)
+			{
+				for(int d = 0; d < 3; d++)
+				{
+					xPos += offset/4f;
+					if(levelMassItems[i][k,d].type == PuzzleCell.CellType.none)
+						continue;
+					GameObject obj1 = Instantiate (cellPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+					obj1.transform.SetParent (obj.transform);
+					obj1.transform.localScale = Vector3.one;
+					obj1.name = k.ToString ()+d.ToString();
+					RectTransform rcTrans = obj1.GetComponent<RectTransform> ();
+					rcTrans.anchoredPosition = new Vector2 (xPos,yPos);
+					rcTrans.eulerAngles = new Vector3 (0f, 0f, levelMassItems[i][k,d].angle);
+					PuzzleCell pc = obj1.GetComponent<PuzzleCell> ();
+					pc.img.color = cellColor;
+					pc.SetType (levelMassItems[i][k,d].type);
+					obj.GetComponent<PuzzleCellBlock> ().cells.Add (new PuzzleCellBlock.PuzzleCellBlockType (levelMassItems[i][k,d].type, obj1.GetComponent<RectTransform> ()));
+					pc.enabled = false;
+				}
+				xPos = -((offset/4f)*2f);
+				yPos -= offset/4f;
 			}
 		}
 	}

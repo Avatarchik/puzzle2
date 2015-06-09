@@ -18,7 +18,8 @@ public class PuzzleCell : MonoBehaviour, IPointerClickHandler
 	{
 		part1,
 		part2,
-		part3
+		part3,
+		none
 	}
 
 	public enum ReverseType
